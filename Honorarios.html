@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportería de Honorarios 2026 - Control de Gestión</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .card { background: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+    </style>
+</head>
+<body class="p-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-4 border-b border-gray-200">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-chart-line text-blue-600 mr-2"></i> Dashboard de Análisis de Honorarios 2026</h1>
+                <p class="text-sm text-gray-500 mt-1">Informe para Fundación María Romo | Análisis por Periodo, Subvención y Razón Social</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex gap-2">
+                <button onclick="window.print()" class="px-4 py-2 bg-slate-800 text-white rounded-lg text-sm font-medium hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-print mr-1"></i> Imprimir Reporte
+                </button>
+            </div>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div class="card p-5 border-l-4 border-blue-600">
+                <p class="text-xs font-semibold text-gray-500 uppercase">Monto Total Bruto</p>
+                <h3 class="text-2xl font-bold text-gray-900 mt-1" id="kpi-total">$41,412,809</h3>
+                <span class="text-xs text-blue-600 font-medium">Acumulado Total</span>
+            </div>
+            <div class="card p-5 border-l-4 border-emerald-500">
+                <p class="text-xs font-semibold text-gray-500 uppercase">Total Registros</p>
+                <h3 class="text-2xl font-bold text-gray-900 mt-1" id="kpi-count">117</h3>
+                <span class="text-xs text-emerald-600 font-medium">Documentos procesados</span>
+            </div>
+            <div class="card p-5 border-l-4 border-indigo-500">
+                <p class="text-xs font-semibold text-gray-500 uppercase">Mayor Subvención</p>
+                <h3 class="text-2xl font-bold text-gray-900 mt-1">SEP</h3>
+                <span class="text-xs text-indigo-600 font-medium">$18,589,122 (44.9%)</span>
+            </div>
+            <div class="card p-5 border-l-4 border-amber-500">
+                <p class="text-xs font-semibold text-gray-500 uppercase">Principal Proveedor</p>
+                <h3 class="text-lg font-bold text-gray-900 mt-1 truncate">FUNDACION MARIA ROMO</h3>
+                <span class="text-xs text-amber-600 font-medium">$10,238,466 (24.7%)</span>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="card p-5 mb-6 bg-slate-50">
+            <h2 class="text-sm font-bold text-gray-700 uppercase tracking-wide mb-3"><i class="fa-solid fa-filter text-gray-500 mr-1"></i> Filtros Interactivos</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Periodo (Mes):</label>
+                    <select id="filter-period" class="w-full border-gray-300 rounded-md text-sm p-2 bg-white border" onchange="applyFilters()">
+                        <option value="ALL">Todos los Periodos</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Financiamiento / Subvención:</label>
+                    <select id="filter-fin" class="w-full border-gray-300 rounded-md text-sm p-2 bg-white border" onchange="applyFilters()">
+                        <option value="ALL">Todas las Subvenciones</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Razón Social / Prestador:</label>
+                    <select id="filter-rs" class="w-full border-gray-300 rounded-md text-sm p-2 bg-white border" onchange="applyFilters()">
+                        <option value="ALL">Todas las Razones Sociales</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="card p-5">
+                <h3 class="text-md font-bold text-gray-800 mb-4"><i class="fa-solid fa-chart-bar text-blue-500 mr-2"></i> Evolución Mensual por Subvención</h3>
+                <div class="h-64">
+                    <canvas id="chartPeriodo"></canvas>
+                </div>
+            </div>
+            <div class="card p-5">
+                <h3 class="text-md font-bold text-gray-800 mb-4"><i class="fa-solid fa-chart-pie text-emerald-500 mr-2"></i> Distribución por Fuente de Financiamiento</h3>
+                <div class="h-64 flex justify-center">
+                    <canvas id="chartFinanciamiento"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabbed Detailed Reports -->
+        <div class="card p-5 mb-6">
+            <div class="flex border-b border-gray-200 mb-4 justify-between items-center">
+                <div class="flex gap-4">
+                    <button onclick="switchTab('periodo')" id="tab-periodo" class="py-2 px-4 border-b-2 border-blue-600 font-bold text-blue-600 text-sm">Resumen por Periodo</button>
+                    <button onclick="switchTab('subvencion')" id="tab-subvencion" class="py-2 px-4 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">Resumen por Subvención</button>
+                    <button onclick="switchTab('razon')" id="tab-razon" class="py-2 px-4 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">Resumen por Razón Social</button>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="toggle-partidas" class="rounded text-blue-600 focus:ring-blue-500 h-4 w-4" onchange="renderTables()">
+                    <label for="toggle-partidas" class="text-xs font-semibold text-gray-700 cursor-pointer">Mostrar Partidas Detalladas (Filas de la Planilla)</label>
+                </div>
+            </div>
+
+            <!-- Table View Container -->
+            <div id="table-container" class="overflow-x-auto">
+                <!-- Tables rendered via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        const rawData = [{"Tipo":"BOLHE","N\u00famero":198,"Raz\u00f3n Social":"CRISTIAN CARVAJAL CORNEJO","Descripci\u00f3n":"MANTENCION JARDINES COLEGIO (RICK)","Financiamiento":"GENERAL","Periodo":"01-2026","Bruto":140351},{"Tipo":"BOLHE","N\u00famero":57,"Raz\u00f3n Social":"GERMAN ARTURO CONTRERAS ARAYA","Descripci\u00f3n":"SERVICIOS DE GASFITER\u00cdA (RICK)","Financiamiento":"GENERAL","Periodo":"01-2026","Bruto":280000},{"Tipo":"BOLHE","N\u00famero":57,"Raz\u00f3n Social":"ROBERTO ROBINSON ALEGRIA LUENGO","Descripci\u00f3n":"ASESOR\u00cdA EN PREVENCI\u00d3N DE RIESGOS (RICK)","Financiamiento":"GENERAL","Periodo":"01-2026","Bruto":385965},{"Tipo":"BPSTE","N\u00famero":310,"Raz\u00f3n Social":"ADELA YOVANA RODRIGUEZ ANTICONA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"01-2026","Bruto":30000},{"Tipo":"BOLHE","N\u00famero":36,"Raz\u00f3n Social":"CAMILA ROSARIO ANDREA SARABIA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"01-2026","Bruto":60000},{"Tipo":"BOLHE","N\u00famero":107,"Raz\u00f3n Social":"DIEGO ALBERTO FIGUEROA MORAGA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"01-2026","Bruto":90000},{"Tipo":"BOLHE","N\u00famero":23,"Raz\u00f3n Social":"EDUARDO PATRICIO MORALES REYES","Descripci\u00f3n":"CONFECCI\u00d3N VESTUARIO APOYO A LA PARTICIPACI\u00d3N E IDENTIDAD ESCOLAR (RICK)","Financiamiento":"SEP","Periodo":"01-2026","Bruto":739181},{"Tipo":"BOLHE","N\u00famero":275,"Raz\u00f3n Social":"ELIZABETH FERNANDA CORTES MALUENDA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"01-2026","Bruto":240000},{"Tipo":"BOLHE","N\u00famero":22,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"LIMPIEZA MATERIAL DIDACTICO APOYO A LA PARTICIPACI\u00d3N E IDENTIDAD ESCOLAR (RICK)","Financiamiento":"SEP","Periodo":"01-2026","Bruto":107200},{"Tipo":"BOLHE","N\u00famero":21,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"LIMPIEZA MATERIAL DIDACTICO APOYO A LA PARTICIPACI\u00d3N E IDENTIDAD ESCOLAR (RICK)","Financiamiento":"SEP","Periodo":"01-2026","Bruto":204500},{"Tipo":"BOLHE","N\u00famero":14,"Raz\u00f3n Social":"PAULA FERNANDA MORAN LABBE","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"01-2026","Bruto":90000},{"Tipo":"BOLHE","N\u00famero":25,"Raz\u00f3n Social":"WILMER J. CARIO RUBIO","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"01-2026","Bruto":175439},{"Tipo":"BOLHE","N\u00famero":199,"Raz\u00f3n Social":"CRISTIAN CARVAJAL CORNEJO","Descripci\u00f3n":"MANTENCION JARDINES COLEGIO (RICK)","Financiamiento":"GENERAL","Periodo":"02-2026","Bruto":176991},{"Tipo":"BOLHE","N\u00famero":58,"Raz\u00f3n Social":"ROBERTO ROBINSON ALEGRIA LUENGO","Descripci\u00f3n":"ASESOR\u00cdA EN PREVENCI\u00d3N DE RIESGOS (RICK)","Financiamiento":"GENERAL","Periodo":"02-2026","Bruto":389381},{"Tipo":"BOLHE","N\u00famero":92,"Raz\u00f3n Social":"ALEJANDRO JAVIER QUIJADA BASOA","Descripci\u00f3n":"MANTENCI\u00d3N MOBILIARIO ESCOLAR (RICK)","Financiamiento":"SEP","Periodo":"02-2026","Bruto":1344266},{"Tipo":"BPSTE","N\u00famero":312,"Raz\u00f3n Social":"LUIS FLORES QUEUPUMIL","Descripci\u00f3n":"CONFECCI\u00d3N MOBILIARIO ESPECIAL (RICK)","Financiamiento":"SEP","Periodo":"02-2026","Bruto":696165},{"Tipo":"BOLHE","N\u00famero":200,"Raz\u00f3n Social":"CRISTIAN CARVAJAL CORNEJO","Descripci\u00f3n":"MANTENCION JARDINES COLEGIO (RICK)","Financiamiento":"GENERAL","Periodo":"03-2026","Bruto":106195},{"Tipo":"BOLHE","N\u00famero":139153,"Raz\u00f3n Social":"MONICA LORENA FIGUEROA CARVAJAL","Descripci\u00f3n":"SERVICIOS NOTARIALES COLEGIO (RICK)","Financiamiento":"GENERAL","Periodo":"03-2026","Bruto":10000},{"Tipo":"BOLHE","N\u00famero":59,"Raz\u00f3n Social":"ROBERTO ROBINSON ALEGRIA LUENGO","Descripci\u00f3n":"ASESOR\u00cdA EN PREVENCI\u00d3N DE RIESGOS (RICK)","Financiamiento":"GENERAL","Periodo":"03-2026","Bruto":389381},{"Tipo":"BOLHE","N\u00famero":31,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"CONFECCI\u00d3N VESTUARIO APOYO A LA PARTICIPACI\u00d3N E IDENTIDAD ESCOLAR (RICK)","Financiamiento":"SEP","Periodo":"03-2026","Bruto":618000},{"Tipo":"BOLHE","N\u00famero":25,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"LIMPIEZA MATERIAL DIDACTICO APOYO A LA PARTICIPACI\u00d3N E IDENTIDAD ESCOLAR (RICK)","Financiamiento":"SEP","Periodo":"03-2026","Bruto":572000},{"Tipo":"BOLHE","N\u00famero":24,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"LIMPIEZA MATERIAL DIDACTICO APOYO A LA PARTICIPACI\u00d3N E IDENTIDAD ESCOLAR (RICK)","Financiamiento":"SEP","Periodo":"03-2026","Bruto":427500},{"Tipo":"BOLHE","N\u00famero":4,"Raz\u00f3n Social":"SANDRA PAOLA CONTRERAS ROJAS","Descripci\u00f3n":"PRODUCTO FINAL FORTALECIMIENTO IDENTIDAD ESCOLAR ALUMNOS (RICK)","Financiamiento":"SEP","Periodo":"03-2026","Bruto":200590},{"Tipo":"BOLHE","N\u00famero":93,"Raz\u00f3n Social":"ALEJANDRO JAVIER QUIJADA BASOA","Descripci\u00f3n":"MANTENCI\u00d3N MOBILIARIO ESCOLAR (RICK)","Financiamiento":"GENERAL","Periodo":"04-2026","Bruto":70796},{"Tipo":"BOLHE","N\u00famero":202,"Raz\u00f3n Social":"CRISTIAN CARVAJAL CORNEJO","Descripci\u00f3n":"MANTENCION JARDINES COLEGIO (RICK)","Financiamiento":"GENERAL","Periodo":"04-2026","Bruto":176991},{"Tipo":"BOLHE","N\u00famero":401,"Raz\u00f3n Social":"MARIO GUZMAN SALINAS","Descripci\u00f3n":"SERVICIOS DE MANTENCI\u00d3N Y REPARACIONES ELECTRICAS (RICK)","Financiamiento":"GENERAL","Periodo":"04-2026","Bruto":700000},{"Tipo":"BOLHE","N\u00famero":60,"Raz\u00f3n Social":"ROBERTO ROBINSON ALEGRIA LUENGO","Descripci\u00f3n":"ASESOR\u00cdA EN PREVENCI\u00d3N DE RIESGOS (RICK)","Financiamiento":"GENERAL","Periodo":"04-2026","Bruto":389381},{"Tipo":"BOLHE","N\u00famero":110445,"Raz\u00f3n Social":"VALERIA DEL CARMEN RONCHERA FLORES","Descripci\u00f3n":"SERVICIOS NOTARIALES COLEGIO (RICK)","Financiamiento":"GENERAL","Periodo":"04-2026","Bruto":45000},{"Tipo":"BOLHE","N\u00famero":41,"Raz\u00f3n Social":"CAMILA ROSARIO ANDREA SARABIA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"04-2026","Bruto":120000},{"Tipo":"BOLHE","N\u00famero":38,"Raz\u00f3n Social":"CAMILA ROSARIO ANDREA SARABIA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"04-2026","Bruto":60000},{"Tipo":"BOLHE","N\u00famero":109,"Raz\u00f3n Social":"DIEGO ALBERTO FIGUEROA MORAGA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"04-2026","Bruto":240000},{"Tipo":"BOLHE","N\u00famero":108,"Raz\u00f3n Social":"DIEGO ALBERTO FIGUEROA MORAGA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"04-2026","Bruto":60000},{"Tipo":"BOLHE","N\u00famero":280,"Raz\u00f3n Social":"ELIZABETH FERNANDA CORTES MALUENDA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"04-2026","Bruto":270000},{"Tipo":"BOLHE","N\u00famero":278,"Raz\u00f3n Social":"ELIZABETH FERNANDA CORTES MALUENDA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"04-2026","Bruto":120000},{"Tipo":"BOLHE","N\u00famero":29,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"LIMPIEZA MATERIAL DIDACTICO APOYO A LA PARTICIPACI\u00d3N E IDENTIDAD ESCOLAR (RICK)","Financiamiento":"SEP","Periodo":"04-2026","Bruto":245000},{"Tipo":"BOLHE","N\u00famero":27,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"LIMPIEZA MATERIAL DIDACTICO APOYO A LA PARTICIPACI\u00d3N E IDENTIDAD ESCOLAR (RICK)","Financiamiento":"SEP","Periodo":"04-2026","Bruto":378000},{"Tipo":"BOLHE","N\u00famero":28,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"LIMPIEZA MATERIAL DIDACTICO APOYO A LA PARTICIPACI\u00d3N E IDENTIDAD ESCOLAR (RICK)","Financiamiento":"SEP","Periodo":"04-2026","Bruto":257500},{"Tipo":"BOLHE","N\u00famero":1,"Raz\u00f3n Social":"PABLO NICOLAS REBOLLEDO AGUERO","Descripci\u00f3n":"DIGITADOR TABULACION DE DATOS TALES COMO EVALUACIONES, COMPRAS, ETC. (RICK)","Financiamiento":"SEP","Periodo":"04-2026","Bruto":391627},{"Tipo":"BOLHE","N\u00famero":18,"Raz\u00f3n Social":"PAULA FERNANDA MORAN LABBE","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"04-2026","Bruto":90000},{"Tipo":"BOLHE","N\u00famero":16,"Raz\u00f3n Social":"PAULA FERNANDA MORAN LABBE","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"04-2026","Bruto":30000},{"Tipo":"BOLHE","N\u00famero":27,"Raz\u00f3n Social":"WILMER J. CARIO RUBIO","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"04-2026","Bruto":247788},{"Tipo":"BOLHE","N\u00famero":26,"Raz\u00f3n Social":"WILMER J. CARIO RUBIO","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"04-2026","Bruto":141593},{"Tipo":"BOLHE","N\u00famero":203,"Raz\u00f3n Social":"CRISTIAN CARVAJAL CORNEJO","Descripci\u00f3n":"MANTENCION JARDINES COLEGIO (RICK)","Financiamiento":"GENERAL","Periodo":"05-2026","Bruto":70796},{"Tipo":"BOLHE","N\u00famero":58,"Raz\u00f3n Social":"GERMAN ARTURO CONTRERAS ARAYA","Descripci\u00f3n":"SERVICIOS DE GASFITER\u00cdA (RICK)","Financiamiento":"GENERAL","Periodo":"05-2026","Bruto":375000},{"Tipo":"BOLHE","N\u00famero":59,"Raz\u00f3n Social":"GERMAN ARTURO CONTRERAS ARAYA","Descripci\u00f3n":"SERVICIOS DE GASFITER\u00cdA (RICK)","Financiamiento":"GENERAL","Periodo":"05-2026","Bruto":435000},{"Tipo":"BOLHE","N\u00famero":62,"Raz\u00f3n Social":"ROBERTO ROBINSON ALEGRIA LUENGO","Descripci\u00f3n":"ASESOR\u00cdA EN PREVENCI\u00d3N DE RIESGOS (RICK)","Financiamiento":"GENERAL","Periodo":"05-2026","Bruto":389381},{"Tipo":"BOLHE","N\u00famero":110492,"Raz\u00f3n Social":"VALERIA DEL CARMEN RONCHERA FLORES","Descripci\u00f3n":"SERVICIOS NOTARIALES COLEGIO (RICK)","Financiamiento":"GENERAL","Periodo":"05-2026","Bruto":84000},{"Tipo":"BOLHE","N\u00famero":104,"Raz\u00f3n Social":"GREGOR VALERY SEPULVEDA ARENAS","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"05-2026","Bruto":90000},{"Tipo":"BOLHE","N\u00famero":4,"Raz\u00f3n Social":"HUGO LEANDRO RECABARREN CONTRE","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"05-2026","Bruto":283186},{"Tipo":"BOLHE","N\u00famero":20,"Raz\u00f3n Social":"JOSE DANIEL GODOY ALVARADO","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"05-2026","Bruto":90000},{"Tipo":"BOLHE","N\u00famero":46,"Raz\u00f3n Social":"KEVIN ALEXANDER LEON LILLO","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"05-2026","Bruto":150000},{"Tipo":"BOLHE","N\u00famero":30,"Raz\u00f3n Social":"LORELAINE JULIANA DELGADO CSIZMADIA","Descripci\u00f3n":"PRODUCCION DE EVENTOS INFANTILES Y DE ENTRETENCI\u00d3N","Financiamiento":"SEP","Periodo":"05-2026","Bruto":235988},{"Tipo":"BOLHE","N\u00famero":30,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"LIMPIEZA MATERIAL DIDACTICO APOYO A LA PARTICIPACI\u00d3N E IDENTIDAD ESCOLAR (RICK)","Financiamiento":"SEP","Periodo":"05-2026","Bruto":650000},{"Tipo":"BOLHE","N\u00famero":23,"Raz\u00f3n Social":"NADIA DALILA PASTORINO","Descripci\u00f3n":"EVENTOS EDUCATIVOS EN FORMATO CIRCENSES Y TEATRALES (RICK)","Financiamiento":"SEP","Periodo":"05-2026","Bruto":365782},{"Tipo":"BOLHE","N\u00famero":106,"Raz\u00f3n Social":"NICOLAS IGNACIO ARAYA VARGAS","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"05-2026","Bruto":141593},{"Tipo":"BOLHE","N\u00famero":2,"Raz\u00f3n Social":"PABLO NICOLAS REBOLLEDO AGUERO","Descripci\u00f3n":"DIGITADOR TABULACION DE DATOS TALES COMO EVALUACIONES, COMPRAS, ETC. (RICK)","Financiamiento":"SEP","Periodo":"05-2026","Bruto":391627},{"Tipo":"BOLHE","N\u00famero":107,"Raz\u00f3n Social":"VALERIA PAZ SEPULVEDA MATAMALA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"05-2026","Bruto":90000},{"Tipo":"BOLHE","N\u00famero":405,"Raz\u00f3n Social":"MARIO GUZMAN SALINAS","Descripci\u00f3n":"SERVICIOS DE MANTENCI\u00d3N Y REPARACIONES ELECTRICAS (RICK)","Financiamiento":"GENERAL","Periodo":"06-2026","Bruto":360000},{"Tipo":"BOLHE","N\u00famero":404,"Raz\u00f3n Social":"MARIO GUZMAN SALINAS","Descripci\u00f3n":"SERVICIOS DE MANTENCI\u00d3N Y REPARACIONES ELECTRICAS (RICK)","Financiamiento":"GENERAL","Periodo":"06-2026","Bruto":317000},{"Tipo":"BOLHE","N\u00famero":63,"Raz\u00f3n Social":"ROBERTO ROBINSON ALEGRIA LUENGO","Descripci\u00f3n":"ASESOR\u00cdA EN PREVENCI\u00d3N DE RIESGOS (RICK)","Financiamiento":"GENERAL","Periodo":"06-2026","Bruto":389381},{"Tipo":"BOLHE","N\u00famero":6,"Raz\u00f3n Social":"SANDRA PAOLA CONTRERAS ROJAS","Descripci\u00f3n":"FOTOGRAFIAS PARA CREDENCIALES (RICK)","Financiamiento":"GENERAL","Periodo":"06-2026","Bruto":256991},{"Tipo":"BOLHE","N\u00famero":112410,"Raz\u00f3n Social":"VALERIA DEL CARMEN RONCHERA FLORES","Descripci\u00f3n":"SERVICIOS NOTARIALES COLEGIO (RICK)","Financiamiento":"GENERAL","Periodo":"06-2026","Bruto":18000},{"Tipo":"BOLHE","N\u00famero":43,"Raz\u00f3n Social":"CAMILA ROSARIO ANDREA SARABIA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":90000},{"Tipo":"BOLHE","N\u00famero":42,"Raz\u00f3n Social":"CAMILA ROSARIO ANDREA SARABIA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":120000},{"Tipo":"BOLHE","N\u00famero":33,"Raz\u00f3n Social":"DANIEL FELIPE RODRIGUEZ FUENTE","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":120000},{"Tipo":"BOLHE","N\u00famero":32,"Raz\u00f3n Social":"DANIEL FELIPE RODRIGUEZ FUENTE","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":120000},{"Tipo":"BOLHE","N\u00famero":31,"Raz\u00f3n Social":"DANIEL FELIPE RODRIGUEZ FUENTE","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":120000},{"Tipo":"BOLHE","N\u00famero":116,"Raz\u00f3n Social":"DIEGO ALBERTO FIGUEROA MORAGA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":180000},{"Tipo":"BOLHE","N\u00famero":112,"Raz\u00f3n Social":"DIEGO ALBERTO FIGUEROA MORAGA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":240000},{"Tipo":"BOLHE","N\u00famero":284,"Raz\u00f3n Social":"ELIZABETH FERNANDA CORTES MALUENDA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":240000},{"Tipo":"BOLHE","N\u00famero":282,"Raz\u00f3n Social":"ELIZABETH FERNANDA CORTES MALUENDA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":270000},{"Tipo":"BOLHE","N\u00famero":114,"Raz\u00f3n Social":"GREGOR VALERY SEPULVEDA ARENAS","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":180000},{"Tipo":"BOLHE","N\u00famero":109,"Raz\u00f3n Social":"GREGOR VALERY SEPULVEDA ARENAS","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":120000},{"Tipo":"BOLHE","N\u00famero":6,"Raz\u00f3n Social":"HUGO LEANDRO RECABARREN CONTRE","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":247788},{"Tipo":"BOLHE","N\u00famero":5,"Raz\u00f3n Social":"HUGO LEANDRO RECABARREN CONTRE","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":283186},{"Tipo":"BOLHE","N\u00famero":22,"Raz\u00f3n Social":"JOSE DANIEL GODOY ALVARADO","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":150000},{"Tipo":"BOLHE","N\u00famero":21,"Raz\u00f3n Social":"JOSE DANIEL GODOY ALVARADO","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":90000},{"Tipo":"BOLHE","N\u00famero":50,"Raz\u00f3n Social":"KEVIN ALEXANDER LEON LILLO","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":180000},{"Tipo":"BOLHE","N\u00famero":48,"Raz\u00f3n Social":"KEVIN ALEXANDER LEON LILLO","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":210000},{"Tipo":"BOLHE","N\u00famero":32,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"LIMPIEZA MATERIAL DIDACTICO APOYO A LA PARTICIPACI\u00d3N E IDENTIDAD ESCOLAR (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":191500},{"Tipo":"BOLHE","N\u00famero":108,"Raz\u00f3n Social":"NICOLAS IGNACIO ARAYA VARGAS","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":283186},{"Tipo":"BOLHE","N\u00famero":107,"Raz\u00f3n Social":"NICOLAS IGNACIO ARAYA VARGAS","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":283186},{"Tipo":"BOLHE","N\u00famero":4,"Raz\u00f3n Social":"PABLO NICOLAS REBOLLEDO AGUERO","Descripci\u00f3n":"DIGITADOR TABULACION DE DATOS TALES COMO EVALUACIONES, COMPRAS, ETC. (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":391627},{"Tipo":"BOLHE","N\u00famero":3,"Raz\u00f3n Social":"PABLO NICOLAS REBOLLEDO AGUERO","Descripci\u00f3n":"DIGITADOR TABULACION DE DATOS TALES COMO EVALUACIONES, COMPRAS, ETC. (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":391627},{"Tipo":"BOLHE","N\u00famero":25,"Raz\u00f3n Social":"PAMELA ANDREA URZUA RIQUELME","Descripci\u00f3n":"TALLERES MULTIDICIPLINARIOS PARA ALUMNOS (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":300000},{"Tipo":"BOLHE","N\u00famero":21,"Raz\u00f3n Social":"PAULA FERNANDA MORAN LABBE","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":90000},{"Tipo":"BOLHE","N\u00famero":19,"Raz\u00f3n Social":"PAULA FERNANDA MORAN LABBE","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":90000},{"Tipo":"BOLHE","N\u00famero":111,"Raz\u00f3n Social":"VALERIA PAZ SEPULVEDA MATAMALA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":90000},{"Tipo":"BOLHE","N\u00famero":109,"Raz\u00f3n Social":"VALERIA PAZ SEPULVEDA MATAMALA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":120000},{"Tipo":"BOLHE","N\u00famero":29,"Raz\u00f3n Social":"WILMER J. CARIO RUBIO","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":212389},{"Tipo":"BOLHE","N\u00famero":28,"Raz\u00f3n Social":"WILMER J. CARIO RUBIO","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"06-2026","Bruto":212389},{"Tipo":"BOLHE","N\u00famero":36,"Raz\u00f3n Social":"GABRIELA EUGENIA TORO ARRIAGADA","Descripci\u00f3n":"TALLERES DE CAPACITACI\u00d3N Y PERFECCIONAMIENTO DE RRHH (RICK)","Financiamiento":"GENERAL","Periodo":"07-2026","Bruto":1887906},{"Tipo":"BOLHE","N\u00famero":64,"Raz\u00f3n Social":"ROBERTO ROBINSON ALEGRIA LUENGO","Descripci\u00f3n":"ASESOR\u00cdA EN PREVENCI\u00d3N DE RIESGOS (RICK)","Financiamiento":"GENERAL","Periodo":"07-2026","Bruto":389381},{"Tipo":"BOLHE","N\u00famero":114563,"Raz\u00f3n Social":"VALERIA DEL CARMEN RONCHERA FLORES","Descripci\u00f3n":"SERVICIOS NOTARIALES COLEGIO (RICK)","Financiamiento":"GENERAL","Periodo":"07-2026","Bruto":15000},{"Tipo":"BPSTE","N\u00famero":315,"Raz\u00f3n Social":"FUNDACION MARIA ROMO","Descripci\u00f3n":"MANTENCI\u00d3N Y REPARACI\u00d3N DE INFRAESTRUCTURA (RICK)","Financiamiento":"MANTENIMIENTO","Periodo":"07-2026","Bruto":5899705},{"Tipo":"BPSTE","N\u00famero":313,"Raz\u00f3n Social":"FUNDACION MARIA ROMO","Descripci\u00f3n":"MANTENCI\u00d3N Y REPARACI\u00d3N DE INFRAESTRUCTURA (RICK)","Financiamiento":"MANTENIMIENTO","Periodo":"07-2026","Bruto":3159292},{"Tipo":"BPSTE","N\u00famero":314,"Raz\u00f3n Social":"FUNDACION MARIA ROMO","Descripci\u00f3n":"MANTENCI\u00d3N Y REPARACI\u00d3N DE INFRAESTRUCTURA (RICK)","Financiamiento":"MANTENIMIENTO","Periodo":"07-2026","Bruto":1179469},{"Tipo":"BOLHE","N\u00famero":35,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"07-2026","Bruto":660000},{"Tipo":"BOLHE","N\u00famero":34,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"07-2026","Bruto":87500},{"Tipo":"BOLHE","N\u00famero":94,"Raz\u00f3n Social":"ALEJANDRO JAVIER QUIJADA BASOA","Descripci\u00f3n":"CONFECCI\u00d3N MOBILIARIO ESPECIAL (RICK)","Financiamiento":"GENERAL","Periodo":"08-2026","Bruto":423091},{"Tipo":"BOLHE","N\u00famero":37,"Raz\u00f3n Social":"GABRIELA EUGENIA TORO ARRIAGADA","Descripci\u00f3n":"TALLERES DE CAPACITACI\u00d3N Y PERFECCIONAMIENTO DE RRHH (RICK)","Financiamiento":"GENERAL","Periodo":"08-2026","Bruto":1887906},{"Tipo":"BOLHE","N\u00famero":40,"Raz\u00f3n Social":"KATHERINE ANDREA LECAROS OCAMPO","Descripci\u00f3n":"BANDA MUSICAL CEREMONIA PUEBLOS ORIGINARIOS","Financiamiento":"GENERAL","Periodo":"08-2026","Bruto":495575},{"Tipo":"BOLHE","N\u00famero":41,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"CONFECCI\u00d3N CORTINAS SALAS DE CLASES (RICK)","Financiamiento":"GENERAL","Periodo":"08-2026","Bruto":572000},{"Tipo":"BOLHE","N\u00famero":39,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"LAVADO Y PLANCHADO MANTELER\u00cdA Y OTROS (RICK)","Financiamiento":"GENERAL","Periodo":"08-2026","Bruto":389000},{"Tipo":"BOLHE","N\u00famero":65,"Raz\u00f3n Social":"ROBERTO ROBINSON ALEGRIA LUENGO","Descripci\u00f3n":"ASESOR\u00cdA EN PREVENCI\u00d3N DE RIESGOS (RICK)","Financiamiento":"GENERAL","Periodo":"08-2026","Bruto":389381},{"Tipo":"BOLHE","N\u00famero":61,"Raz\u00f3n Social":"GERMAN ARTURO CONTRERAS ARAYA","Descripci\u00f3n":"SERVICIOS DE GASFITER\u00cdA (RICK)","Financiamiento":"MANTENIMIENTO","Periodo":"08-2026","Bruto":180000},{"Tipo":"BOLHE","N\u00famero":45,"Raz\u00f3n Social":"CAMILA ROSARIO ANDREA SARABIA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"08-2026","Bruto":30000},{"Tipo":"BOLHE","N\u00famero":119,"Raz\u00f3n Social":"DIEGO ALBERTO FIGUEROA MORAGA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"08-2026","Bruto":60000},{"Tipo":"BOLHE","N\u00famero":288,"Raz\u00f3n Social":"ELIZABETH FERNANDA CORTES MALUENDA","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"08-2026","Bruto":60000},{"Tipo":"BOLHE","N\u00famero":118,"Raz\u00f3n Social":"GREGOR VALERY SEPULVEDA ARENAS","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"08-2026","Bruto":150000},{"Tipo":"BOLHE","N\u00famero":7,"Raz\u00f3n Social":"HUGO LEANDRO RECABARREN CONTRE","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"08-2026","Bruto":35398},{"Tipo":"BOLHE","N\u00famero":53,"Raz\u00f3n Social":"KEVIN ALEXANDER LEON LILLO","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"08-2026","Bruto":60000},{"Tipo":"BOLHE","N\u00famero":40,"Raz\u00f3n Social":"MARGARITA DEL CARMEN GODOY LAR","Descripci\u00f3n":"LAVADO Y PLANCHADO INDUMENTARIA DEPORTIVA DE ACADEMIAS (RICK)","Financiamiento":"SEP","Periodo":"08-2026","Bruto":387000},{"Tipo":"BOLHE","N\u00famero":110,"Raz\u00f3n Social":"NICOLAS IGNACIO ARAYA VARGAS","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"08-2026","Bruto":35398},{"Tipo":"BOLHE","N\u00famero":5,"Raz\u00f3n Social":"PABLO NICOLAS REBOLLEDO AGUERO","Descripci\u00f3n":"DIGITADOR TABULACION DE DATOS TALES COMO EVALUACIONES, COMPRAS, ETC. (RICK)","Financiamiento":"SEP","Periodo":"08-2026","Bruto":391627},{"Tipo":"BOLHE","N\u00famero":28,"Raz\u00f3n Social":"PAMELA ANDREA URZUA RIQUELME","Descripci\u00f3n":"APOYO ESTUDIANTES TALLERES DE DEBATE (RICK)","Financiamiento":"SEP","Periodo":"08-2026","Bruto":210000},{"Tipo":"BOLHE","N\u00famero":30,"Raz\u00f3n Social":"WILMER J. CARIO RUBIO","Descripci\u00f3n":"ACADEMIAS COLEGIO (RICK)","Financiamiento":"SEP","Periodo":"08-2026","Bruto":70796}];
+        let activeTab = 'periodo';
+
+        function initDashboard() {
+            // Populate filter selects
+            const periods = [...new Set(rawData.map(d => d.Periodo))].sort();
+            const fins = [...new Set(rawData.map(d => d.Financiamiento))].sort();
+            const rss = [...new Set(rawData.map(d => d['Razón Social']))].sort();
+
+            const pSel = document.getElementById('filter-period');
+            periods.forEach(p => pSel.innerHTML += `<option value="${p}">${p}</option>`);
+
+            const fSel = document.getElementById('filter-fin');
+            fins.forEach(f => fSel.innerHTML += `<option value="${f}">${f}</option>`);
+
+            const rSel = document.getElementById('filter-rs');
+            rss.forEach(r => rSel.innerHTML += `<option value="${r}">${r}</option>`);
+
+            renderCharts();
+            renderTables();
+        }
+
+        function getFilteredData() {
+            const p = document.getElementById('filter-period').value;
+            const f = document.getElementById('filter-fin').value;
+            const r = document.getElementById('filter-rs').value;
+
+            return rawData.filter(d => {
+                return (p === 'ALL' || d.Periodo === p) &&
+                       (f === 'ALL' || d.Financiamiento === f) &&
+                       (r === 'ALL' || d['Razón Social'] === r);
+            });
+        }
+
+        function applyFilters() {
+            const data = getFilteredData();
+            const total = data.reduce((acc, curr) => acc + curr.Bruto, 0);
+            document.getElementById('kpi-total').innerText = '$' + total.toLocaleString('es-CL');
+            document.getElementById('kpi-count').innerText = data.length;
+
+            renderCharts();
+            renderTables();
+        }
+
+        function switchTab(tab) {
+            activeTab = tab;
+            ['periodo', 'subvencion', 'razon'].forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === tab) {
+                    btn.className = "py-2 px-4 border-b-2 border-blue-600 font-bold text-blue-600 text-sm";
+                } else {
+                    btn.className = "py-2 px-4 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm";
+                }
+            });
+            renderTables();
+        }
+
+        let chart1, chart2;
+
+        function renderCharts() {
+            const data = getFilteredData();
+
+            // Chart 1: Period Evolution
+            const periods = [...new Set(rawData.map(d => d.Periodo))].sort();
+            const seriesSEP = periods.map(p => data.filter(d => d.Periodo === p && d.Financiamiento === 'SEP').reduce((a,c) => a + c.Bruto, 0));
+            const seriesGEN = periods.map(p => data.filter(d => d.Periodo === p && d.Financiamiento === 'GENERAL').reduce((a,c) => a + c.Bruto, 0));
+            const seriesMAN = periods.map(p => data.filter(d => d.Periodo === p && d.Financiamiento === 'MANTENIMIENTO').reduce((a,c) => a + c.Bruto, 0));
+
+            if (chart1) chart1.destroy();
+            const ctx1 = document.getElementById('chartPeriodo').getContext('2d');
+            chart1 = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: periods,
+                    datasets: [
+                        { label: 'SEP', data: seriesSEP, backgroundColor: '#6366f1' },
+                        { label: 'GENERAL', data: seriesGEN, backgroundColor: '#3b82f6' },
+                        { label: 'MANTENIMIENTO', data: seriesMAN, backgroundColor: '#10b981' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { x: { stacked: true }, y: { stacked: true, ticks: { callback: v => '$' + v.toLocaleString('es-CL') } } }
+                }
+            });
+
+            // Chart 2: Financiamiento Distribution
+            const finGroup = {};
+            data.forEach(d => { finGroup[d.Financiamiento] = (finGroup[d.Financiamiento] || 0) + d.Bruto; });
+
+            if (chart2) chart2.destroy();
+            const ctx2 = document.getElementById('chartFinanciamiento').getContext('2d');
+            chart2 = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(finGroup),
+                    datasets: [{
+                        data: Object.values(finGroup),
+                        backgroundColor: ['#3b82f6', '#10b981', '#6366f1']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+        }
+
+        function renderTables() {
+            const data = getFilteredData();
+            const showPartidas = document.getElementById('toggle-partidas').checked;
+            const container = document.getElementById('table-container');
+
+            let html = '';
+
+            if (activeTab === 'periodo') {
+                const group = {};
+                data.forEach(d => {
+                    if (!group[d.Periodo]) group[d.Periodo] = [];
+                    group[d.Periodo].push(d);
+                });
+
+                html = `<table class="min-w-full divide-y divide-gray-200 text-sm">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3 text-left font-semibold text-gray-600">Periodo</th>
+                            <th class="px-4 py-3 text-center font-semibold text-gray-600">N° Doc.</th>
+                            <th class="px-4 py-3 text-right font-semibold text-gray-600">Monto Subtotal Bruto</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">`;
+
+                let grandTotal = 0;
+                Object.keys(group).sort().forEach(p => {
+                    const items = group[p];
+                    const subtotal = items.reduce((a,c) => a + c.Bruto, 0);
+                    grandTotal += subtotal;
+
+                    html += `<tr class="bg-slate-50 font-semibold">
+                        <td class="px-4 py-2 text-slate-800">${p}</td>
+                        <td class="px-4 py-2 text-center text-slate-600">${items.length} docs</td>
+                        <td class="px-4 py-2 text-right text-slate-900">$${subtotal.toLocaleString('es-CL')}</td>
+                    </tr>`;
+
+                    if (showPartidas) {
+                        items.forEach(item => {
+                            html += `<tr class="text-xs text-gray-600 hover:bg-yellow-50">
+                                <td class="px-6 py-1 pl-8"><span class="inline-block px-2 py-0.5 bg-gray-200 text-gray-800 rounded font-mono">${item.Tipo} #${item.Número}</span> - ${item['Razón Social']}</td>
+                                <td class="px-4 py-1 text-center"><span class="px-2 py-0.5 text-xs rounded bg-blue-100 text-blue-800">${item.Financiamiento}</span> - ${item.Descripción}</td>
+                                <td class="px-4 py-1 text-right">$${item.Bruto.toLocaleString('es-CL')}</td>
+                            </tr>`;
+                        });
+                    }
+                });
+
+                html += `</tbody>
+                    <tfoot class="bg-gray-200 font-bold">
+                        <tr>
+                            <td class="px-4 py-3 text-gray-800">TOTAL GENERAL</td>
+                            <td class="px-4 py-3 text-center text-gray-800">${data.length} docs</td>
+                            <td class="px-4 py-3 text-right text-blue-800 text-base">$${grandTotal.toLocaleString('es-CL')}</td>
+                        </tr>
+                    </tfoot>
+                </table>`;
+            } else if (activeTab === 'subvencion') {
+                const group = {};
+                data.forEach(d => {
+                    if (!group[d.Financiamiento]) group[d.Financiamiento] = [];
+                    group[d.Financiamiento].push(d);
+                });
+
+                html = `<table class="min-w-full divide-y divide-gray-200 text-sm">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3 text-left font-semibold text-gray-600">Financiamiento / Subvención</th>
+                            <th class="px-4 py-3 text-center font-semibold text-gray-600">N° Doc.</th>
+                            <th class="px-4 py-3 text-right font-semibold text-gray-600">Monto Subtotal Bruto</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">`;
+
+                let grandTotal = 0;
+                Object.keys(group).sort().forEach(f => {
+                    const items = group[f];
+                    const subtotal = items.reduce((a,c) => a + c.Bruto, 0);
+                    grandTotal += subtotal;
+
+                    html += `<tr class="bg-slate-50 font-semibold">
+                        <td class="px-4 py-2 text-slate-800"><span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded">${f}</span></td>
+                        <td class="px-4 py-2 text-center text-slate-600">${items.length} docs</td>
+                        <td class="px-4 py-2 text-right text-slate-900">$${subtotal.toLocaleString('es-CL')}</td>
+                    </tr>`;
+
+                    if (showPartidas) {
+                        items.forEach(item => {
+                            html += `<tr class="text-xs text-gray-600 hover:bg-yellow-50">
+                                <td class="px-6 py-1 pl-8">${item.Periodo} | <span class="font-mono">${item.Tipo} #${item.Número}</span> - ${item['Razón Social']}</td>
+                                <td class="px-4 py-1 text-center">${item.Descripción}</td>
+                                <td class="px-4 py-1 text-right">$${item.Bruto.toLocaleString('es-CL')}</td>
+                            </tr>`;
+                        });
+                    }
+                });
+
+                html += `</tbody>
+                    <tfoot class="bg-gray-200 font-bold">
+                        <tr>
+                            <td class="px-4 py-3 text-gray-800">TOTAL GENERAL</td>
+                            <td class="px-4 py-3 text-center text-gray-800">${data.length} docs</td>
+                            <td class="px-4 py-3 text-right text-blue-800 text-base">$${grandTotal.toLocaleString('es-CL')}</td>
+                        </tr>
+                    </tfoot>
+                </table>`;
+            } else if (activeTab === 'razon') {
+                const group = {};
+                data.forEach(d => {
+                    if (!group[d['Razón Social']]) group[d['Razón Social']] = [];
+                    group[d['Razón Social']].push(d);
+                });
+
+                const sortedKeys = Object.keys(group).sort((a,b) => group[b].reduce((x,y)=>x+y.Bruto,0) - group[a].reduce((x,y)=>x+y.Bruto,0));
+
+                html = `<table class="min-w-full divide-y divide-gray-200 text-sm">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3 text-left font-semibold text-gray-600">Razón Social / Prestador</th>
+                            <th class="px-4 py-3 text-center font-semibold text-gray-600">N° Doc.</th>
+                            <th class="px-4 py-3 text-right font-semibold text-gray-600">Monto Subtotal Bruto</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">`;
+
+                let grandTotal = 0;
+                sortedKeys.forEach(r => {
+                    const items = group[r];
+                    const subtotal = items.reduce((a,c) => a + c.Bruto, 0);
+                    grandTotal += subtotal;
+
+                    html += `<tr class="bg-slate-50 font-semibold">
+                        <td class="px-4 py-2 text-slate-800">${r}</td>
+                        <td class="px-4 py-2 text-center text-slate-600">${items.length} docs</td>
+                        <td class="px-4 py-2 text-right text-slate-900">$${subtotal.toLocaleString('es-CL')}</td>
+                    </tr>`;
+
+                    if (showPartidas) {
+                        items.forEach(item => {
+                            html += `<tr class="text-xs text-gray-600 hover:bg-yellow-50">
+                                <td class="px-6 py-1 pl-8">${item.Periodo} | <span class="font-mono">${item.Tipo} #${item.Número}</span> - ${item.Descripción}</td>
+                                <td class="px-4 py-1 text-center"><span class="px-2 py-0.5 text-xs rounded bg-blue-100 text-blue-800">${item.Financiamiento}</span></td>
+                                <td class="px-4 py-1 text-right">$${item.Bruto.toLocaleString('es-CL')}</td>
+                            </tr>`;
+                        });
+                    }
+                });
+
+                html += `</tbody>
+                    <tfoot class="bg-gray-200 font-bold">
+                        <tr>
+                            <td class="px-4 py-3 text-gray-800">TOTAL GENERAL</td>
+                            <td class="px-4 py-3 text-center text-gray-800">${data.length} docs</td>
+                            <td class="px-4 py-3 text-right text-blue-800 text-base">$${grandTotal.toLocaleString('es-CL')}</td>
+                        </tr>
+                    </tfoot>
+                </table>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        window.onload = initDashboard;
+    </script>
+</body>
+</html>
