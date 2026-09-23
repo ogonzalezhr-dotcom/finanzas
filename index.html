@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Financiero - Liceo Particular Avenida Recoleta</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome para Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .active-nav {
+      background-color: #2563eb !important;
+      color: #ffffff !important;
+      border-color: #3b82f6 !important;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased">
+
+  <!-- BARRA DE NAVEGACIÓN Y ENCABEZADO CORPORATIVO -->
+  <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- LOGO E IDENTIDAD INSTITUCIONAL -->
+        <div class="flex items-center space-x-4">
+          <div class="bg-white p-1.5 rounded-xl shadow-md border border-slate-700 flex items-center justify-center">
+            <img src="Logo Elar.png" alt="Logo ELAR" class="h-12 w-auto object-contain">
+          </div>
+          <div>
+            <h1 class="text-lg font-bold text-white tracking-tight leading-tight">
+              Liceo Particular Avenida Recoleta
+            </h1>
+            <p class="text-xs text-blue-400 font-semibold tracking-wide">
+              Fundación Sostenedora María Romo
+            </p>
+          </div>
+        </div>
+
+        <!-- MENÚ CORPORATIVO PRINCIPAL (Escritorio) -->
+        <nav class="hidden md:flex items-center space-x-2">
+          <button onclick="cargarReporte('Ingresos.html', this)" id="btn-default" class="nav-btn flex items-center space-x-2 px-3 py-2 text-xs font-semibold rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 border border-transparent transition-all">
+            <i class="fa-solid fa-chart-line text-emerald-400"></i>
+            <span>Reporte de Ingresos</span>
+          </button>
+
+          <button onclick="cargarReporte('Gastos.html', this)" class="nav-btn flex items-center space-x-2 px-3 py-2 text-xs font-semibold rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 border border-transparent transition-all">
+            <i class="fa-solid fa-receipt text-rose-400"></i>
+            <span>Reporte de Egresos</span>
+          </button>
+
+          <button onclick="cargarReporte('Ingreso contra Remuneraciones y GO.html', this)" class="nav-btn flex items-center space-x-2 px-3 py-2 text-xs font-semibold rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 border border-transparent transition-all">
+            <i class="fa-solid fa-scale-balanced text-amber-400"></i>
+            <span>Ingresos vs Gastos</span>
+          </button>
+
+          <button onclick="cargarReporte('Honorarios 2026.html', this)" class="nav-btn flex items-center space-x-2 px-3 py-2 text-xs font-semibold rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 border border-transparent transition-all">
+            <i class="fa-solid fa-file-invoice-dollar text-purple-400"></i>
+            <span>Honorarios 2026</span>
+          </button>
+
+          <button onclick="cargarReporte('Rendición 2026.html', this)" class="nav-btn flex items-center space-x-2 px-3 py-2 text-xs font-semibold rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 border border-transparent transition-all">
+            <i class="fa-solid fa-shield-halved text-cyan-400"></i>
+            <span>Simulacro Rendición 2026</span>
+          </button>
+        </nav>
+
+        <!-- INDICADOR INSTITUCIONAL -->
+        <div class="hidden lg:flex items-center space-x-3 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700 text-xs text-slate-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Periodo Lectivo 2026</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MENÚ MÓVIL (Pestañas de navegación) -->
+    <div class="md:hidden bg-slate-900/90 border-t border-slate-800 px-2 py-2 flex justify-around space-x-1 overflow-x-auto">
+      <button onclick="cargarReporte('Ingresos.html', this)" class="nav-btn flex-1 text-center py-2 px-1 text-[11px] font-semibold rounded-lg text-slate-300 hover:bg-slate-800 border border-transparent">
+        Ingresos
+      </button>
+      <button onclick="cargarReporte('Gastos.html', this)" class="nav-btn flex-1 text-center py-2 px-1 text-[11px] font-semibold rounded-lg text-slate-300 hover:bg-slate-800 border border-transparent">
+        Egresos
+      </button>
+      <button onclick="cargarReporte('Ingreso contra Remuneraciones y GO.html', this)" class="nav-btn flex-1 text-center py-2 px-1 text-[11px] font-semibold rounded-lg text-slate-300 hover:bg-slate-800 border border-transparent">
+        Comparativo
+      </button>
+      <button onclick="cargarReporte('Honorarios 2026.html', this)" class="nav-btn flex-1 text-center py-2 px-1 text-[11px] font-semibold rounded-lg text-slate-300 hover:bg-slate-800 border border-transparent">
+        Honorarios
+      </button>
+      <button onclick="cargarReporte('Rendición 2026.html', this)" class="nav-btn flex-1 text-center py-2 px-1 text-[11px] font-semibold rounded-lg text-slate-300 hover:bg-slate-800 border border-transparent">
+        Rendición
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL / ÁREA DEL VISOR -->
+  <main class="flex-grow flex flex-col p-3 sm:p-6 max-w-[98rem] w-full mx-auto space-y-4">
+    
+    <!-- BARRA DE HERRAMIENTAS Y CONTROL DEL VISOR -->
+    <div class="bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="flex items-center space-x-2 text-slate-400">
+        <i class="fa-solid fa-folder-open text-blue-400"></i>
+        <span>Archivo cargado:</span>
+        <span id="current-file-name" class="font-mono text-white font-semibold bg-slate-800 px-2 py-0.5 rounded border border-slate-700">Ingresos.html</span>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <button onclick="reloadIframe()" class="text-slate-400 hover:text-white transition-colors flex items-center space-x-1 bg-slate-800 hover:bg-slate-700 px-2.5 py-1 rounded border border-slate-700">
+          <i class="fa-solid fa-rotate-right"></i>
+          <span>Recargar</span>
+        </button>
+        <a id="btn-open-external" href="Ingresos.html" target="_blank" class="text-slate-400 hover:text-white transition-colors flex items-center space-x-1 bg-slate-800 hover:bg-slate-700 px-2.5 py-1 rounded border border-slate-700">
+          <i class="fa-solid fa-up-right-from-square"></i>
+          <span>Abrir en nueva pestaña</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- CONTENEDOR DEL IFRAME CON RESPONSIVIDAD AUTOMÁTICA -->
+    <div class="flex-grow w-full bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl relative min-h-[750px]">
+      <iframe id="report-frame" src="Ingresos.html" class="w-full h-full border-0 absolute inset-0" title="Visor de Reportes Financieros"></iframe>
+    </div>
+
+    <!-- SECCIÓN / ZONA DE DESCARGA DE ARCHIVOS EXCEL FUENTE -->
+    <section class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4 mt-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-3">
+          <div class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 p-2.5 rounded-xl flex items-center justify-center">
+            <i class="fa-solid fa-file-excel text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-sm font-bold text-white tracking-wide">Archivos Fuente y Planillas de Cálculo</h2>
+            <p class="text-xs text-slate-400">Descargue los documentos Excel originales que sustentan los reportes y dashboards interactivos</p>
+          </div>
+        </div>
+        <span class="hidden sm:inline-block text-[11px] bg-slate-800 text-slate-300 font-mono px-2.5 py-1 rounded-md border border-slate-700">
+          .XLSX
+        </span>
+      </div>
+
+      <!-- GRID DE TARJETAS DE DESCARGA -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        
+        <!-- CARD 1: INGRESOS -->
+        <a href="Ingresos.xlsx" download class="group bg-slate-950/60 hover:bg-slate-800/80 border border-slate-800 hover:border-emerald-500/50 p-4 rounded-xl transition-all duration-200 flex items-center justify-between">
+          <div class="flex items-center space-x-3 min-w-0">
+            <div class="bg-emerald-600/20 text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white p-2.5 rounded-lg transition-colors flex-shrink-0">
+              <i class="fa-solid fa-file-arrow-down text-base"></i>
+            </div>
+            <div class="truncate">
+              <h3 class="text-xs font-semibold text-slate-200 group-hover:text-emerald-400 truncate transition-colors">Ingresos.xlsx</h3>
+              <p class="text-[11px] text-slate-400 truncate">Planilla de Ingresos</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-download text-slate-500 group-hover:text-emerald-400 text-xs ml-2 transition-colors"></i>
+        </a>
+
+        <!-- CARD 2: GASTOS -->
+        <a href="Gastos.xlsx" download class="group bg-slate-950/60 hover:bg-slate-800/80 border border-slate-800 hover:border-rose-500/50 p-4 rounded-xl transition-all duration-200 flex items-center justify-between">
+          <div class="flex items-center space-x-3 min-w-0">
+            <div class="bg-rose-600/20 text-rose-400 group-hover:bg-rose-600 group-hover:text-white p-2.5 rounded-lg transition-colors flex-shrink-0">
+              <i class="fa-solid fa-file-arrow-down text-base"></i>
+            </div>
+            <div class="truncate">
+              <h3 class="text-xs font-semibold text-slate-200 group-hover:text-rose-400 truncate transition-colors">Gastos.xlsx</h3>
+              <p class="text-[11px] text-slate-400 truncate">Planilla de Egresos</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-download text-slate-500 group-hover:text-rose-400 text-xs ml-2 transition-colors"></i>
+        </a>
+
+        <!-- CARD 3: COMPARATIVO -->
+        <a href="Ingreso contra Remuneraciones y GO.xlsx" download class="group bg-slate-950/60 hover:bg-slate-800/80 border border-slate-800 hover:border-amber-500/50 p-4 rounded-xl transition-all duration-200 flex items-center justify-between">
+          <div class="flex items-center space-x-3 min-w-0">
+            <div class="bg-amber-600/20 text-amber-400 group-hover:bg-amber-600 group-hover:text-white p-2.5 rounded-lg transition-colors flex-shrink-0">
+              <i class="fa-solid fa-file-arrow-down text-base"></i>
+            </div>
+            <div class="truncate">
+              <h3 class="text-xs font-semibold text-slate-200 group-hover:text-amber-400 truncate transition-colors">Ingreso vs Remun...</h3>
+              <p class="text-[11px] text-slate-400 truncate">Comparativo JEC/SEP</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-download text-slate-500 group-hover:text-amber-400 text-xs ml-2 transition-colors"></i>
+        </a>
+
+        <!-- CARD 4: HONORARIOS 2026 -->
+        <a href="Honorarios 2026.xlsx" download class="group bg-slate-950/60 hover:bg-slate-800/80 border border-slate-800 hover:border-purple-500/50 p-4 rounded-xl transition-all duration-200 flex items-center justify-between">
+          <div class="flex items-center space-x-3 min-w-0">
+            <div class="bg-purple-600/20 text-purple-400 group-hover:bg-purple-600 group-hover:text-white p-2.5 rounded-lg transition-colors flex-shrink-0">
+              <i class="fa-solid fa-file-arrow-down text-base"></i>
+            </div>
+            <div class="truncate">
+              <h3 class="text-xs font-semibold text-slate-200 group-hover:text-purple-400 truncate transition-colors">Honorarios 2026.xlsx</h3>
+              <p class="text-[11px] text-slate-400 truncate">Informe de Honorarios</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-download text-slate-500 group-hover:text-purple-400 text-xs ml-2 transition-colors"></i>
+        </a>
+
+        <!-- CARD 5: EJERCICIO RENDICIÓN 2026 -->
+        <a href="Ejercicio Rendición 2026.xlsx" download class="group bg-slate-950/60 hover:bg-slate-800/80 border border-slate-800 hover:border-cyan-500/50 p-4 rounded-xl transition-all duration-200 flex items-center justify-between">
+          <div class="flex items-center space-x-3 min-w-0">
+            <div class="bg-cyan-600/20 text-cyan-400 group-hover:bg-cyan-600 group-hover:text-white p-2.5 rounded-lg transition-colors flex-shrink-0">
+              <i class="fa-solid fa-file-arrow-down text-base"></i>
+            </div>
+            <div class="truncate">
+              <h3 class="text-xs font-semibold text-slate-200 group-hover:text-cyan-400 truncate transition-colors">Rendición 2026.xlsx</h3>
+              <p class="text-[11px] text-slate-400 truncate">Ejercicio Rendición 2026</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-download text-slate-500 group-hover:text-cyan-400 text-xs ml-2 transition-colors"></i>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- CARD / TARJETA DE ELABORACIÓN Y RESPONSABILIDAD -->
+    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-4">
+        <div class="bg-blue-600/10 text-blue-400 border border-blue-500/20 p-3 rounded-xl flex items-center justify-center">
+          <i class="fa-solid fa-user-check text-xl"></i>
+        </div>
+        <div>
+          <span class="text-[10px] font-bold tracking-wider uppercase text-blue-400 block mb-0.5">Elaborado por</span>
+          <h3 class="text-sm font-bold text-white leading-snug">Ricardo González Ortiz</h3>
+          <p class="text-xs text-slate-400">Encargado Oficina de Gestión de Recursos Financieros</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2 text-xs text-slate-400 bg-slate-950/60 px-3 py-1.5 rounded-lg border border-slate-800/80">
+        <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+        <span>Documento Oficial de Control Presupuestario</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- PIE DE PÁGINA CORPORATIVO -->
+  <footer class="bg-slate-950 border-t border-slate-800/80 py-4 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 text-center sm:flex sm:justify-between sm:items-center text-xs text-slate-500">
+      <p>&copy; 2026 Fundación Sostenedora María Romo — Liceo Particular Avenida Recoleta.</p>
+      <p class="mt-2 sm:mt-0">Sistema Corporativo de Gestión Presupuestaria y Financiera</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT DE INTERACTIVIDAD -->
+  <script>
+    function cargarReporte(url, element) {
+      // Actualizar src del iframe
+      const frame = document.getElementById('report-frame');
+      frame.src = url;
+
+      // Actualizar indicadores de la barra de control
+      document.getElementById('current-file-name').textContent = url;
+      document.getElementById('btn-open-external').href = url;
+
+      // Gestor de clases activas en los botones del menú
+      const buttons = document.querySelectorAll('.nav-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('active-nav');
+      });
+
+      if (element) {
+        element.classList.add('active-nav');
+      }
+    }
+
+    function reloadIframe() {
+      const frame = document.getElementById('report-frame');
+      frame.contentWindow.location.reload();
+    }
+
+    // Inicializar estado activo en la primera carga
+    document.addEventListener('DOMContentLoaded', () => {
+      const defaultBtn = document.getElementById('btn-default');
+      if (defaultBtn) {
+        defaultBtn.classList.add('active-nav');
+      }
+    });
+  </script>
+</body>
+</html>
