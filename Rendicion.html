@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Simulacro Rendición de Cuentas 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 font-sans text-slate-800">
+
+    <!-- Header Institucional -->
+    <header class="bg-blue-900 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-shield-halved text-3xl text-yellow-400"></i>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wide">SIMULACRO RENDICIÓN DE CUENTAS 2026</h1>
+                    <p class="text-xs text-blue-200"></p>
+                </div>
+            </div>
+            <div class="mt-4 md:mt-0 text-right">
+                <p class="text-sm font-semibold">Departamento Gestión de Recursos / ELAR</p>
+                <p class="text-xs text-yellow-300">Corte al: 31 de Agosto de 2026</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Subheader Entidad -->
+    <div class="bg-white border-b border-slate-200 py-3 shadow-xs">
+        <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-between items-center text-sm">
+            <div><span class="font-bold text-slate-500">Sostenedor:</span> Fundación María Romo</div>
+            <div><span class="font-bold text-slate-500">Establecimiento:</span> Liceo Particular Avenida Recoleta</div>
+            <div><span class="font-bold text-slate-500">Estado:</span> <span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full text-xs font-bold">En Revisión</span></div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+
+        <!-- KPIs / Tarjetas Resumen (5 Tarjetas) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+            <div class="bg-white p-5 rounded-xl shadow-xs border-l-4 border-blue-600">
+                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Ingresos Totales 2026</p>
+                <h3 class="text-xl font-bold text-slate-700 mt-2">$1.907.545.788</h3>
+                <span class="text-xs text-emerald-600 font-semibold mt-1 inline-block"><i class="fa-solid fa-arrow-up"></i> Acumulado a Agosto</span>
+            </div>
+            <div class="bg-white p-5 rounded-xl shadow-xs border-l-4 border-rose-500">
+                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Gastos Totales 2026</p>
+                <h3 class="text-xl font-bold text-slate-700 mt-2">$1.876.826.318</h3>
+                <span class="text-xs text-slate-500 font-semibold mt-1 inline-block">Ejecución presupuestaria</span>
+            </div>
+            <div class="bg-white p-5 rounded-xl shadow-xs border-l-4 border-indigo-600">
+                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Saldo Contable 2026</p>
+                <h3 class="text-xl font-bold text-slate-700 mt-2">$30.719.470</h3>
+                <span class="text-xs text-blue-600 font-semibold mt-1 inline-block">Balance Neto</span>
+            </div>
+            <div class="bg-white p-5 rounded-xl shadow-xs border-l-4 border-amber-500">
+                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Saldos en Cartola</p>
+                <h3 class="text-xl font-bold text-slate-700 mt-2">$192.071.006</h3>
+                <span class="text-xs text-amber-600 font-semibold mt-1 inline-block">Total Bancario al 31/08/2026</span>
+            </div>
+            <!-- Quinta Tarjeta KPI: Comparativo Acreditar vs Cartola -->
+            <div class="bg-white p-5 rounded-xl shadow-xs border-l-4 border-purple-600 sm:col-span-2 lg:col-span-1">
+                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Por Acreditar vs Cartola</p>
+                <h3 class="text-lg font-bold text-slate-700 mt-2">$297M / $192M</h3>
+                <span class="text-xs text-purple-600 font-semibold mt-1 inline-block"><i class="fa-solid fa-scale-balanced"></i> Brecha: $105.2M</span>
+            </div>
+        </div>
+
+        <!-- Tabla Detallada -->
+        <div class="bg-white rounded-xl shadow-xs overflow-hidden border border-slate-200 mb-8">
+            <div class="px-6 py-4 bg-slate-100 border-b border-slate-200 flex justify-between items-center">
+                <h3 class="font-bold text-slate-700"><i class="fa-solid fa-table-cells mr-2"></i>Detalle Simulacro de Rendición 2026</h3>
+                <span class="text-xs text-slate-500">Valores expresados en CLP ($)</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider border-b border-slate-200">
+                            <th class="py-3 px-4 font-bold">Subvención</th>
+                            <th class="py-3 px-4 font-bold">Saldos 2025</th>
+                            <th class="py-3 px-4 font-bold">Ingresos 2026</th>
+                            <th class="py-3 px-4 font-bold">Gastos 2026</th>
+                            <th class="py-3 px-4 font-bold">Saldo Contable 2026</th>
+                            <th class="py-3 px-4 font-bold">Saldos por Acreditar</th>
+                            <th class="py-3 px-4 font-bold">Saldos en Cartola</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm divide-y divide-slate-100">
+                        <tr class="hover:bg-slate-50">
+                            <td class="py-3 px-4 font-semibold text-slate-800">Subvención SEP</td>
+                            <td class="py-3 px-4">$103.513.637</td>
+                            <td class="py-3 px-4">$496.825.319</td>
+                            <td class="py-3 px-4">$461.989.667</td>
+                            <td class="py-3 px-4 font-bold text-emerald-600">$34.835.652</td>
+                            <td class="py-3 px-4">$138.349.289</td>
+                            <td class="py-3 px-4">$64.111.403</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="py-3 px-4 font-semibold text-slate-800">Subvención General</td>
+                            <td class="py-3 px-4">$123.448.073</td>
+                            <td class="py-3 px-4">$1.368.404.938</td>
+                            <td class="py-3 px-4">$1.386.354.270</td>
+                            <td class="py-3 px-4 font-bold text-rose-600">-$17.949.332</td>
+                            <td class="py-3 px-4">$105.498.741</td>
+                            <td class="py-3 px-4">$92.111.403</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="py-3 px-4 font-semibold text-slate-800">Mantenimiento</td>
+                            <td class="py-3 px-4">$2.502.223</td>
+                            <td class="py-3 px-4">$22.582.520</td>
+                            <td class="py-3 px-4">$22.797.465</td>
+                            <td class="py-3 px-4 font-bold text-rose-600">-$214.945</td>
+                            <td class="py-3 px-4">$2.287.278</td>
+                            <td class="py-3 px-4">$6.635.404</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="py-3 px-4 font-semibold text-slate-800">Pro-Retención</td>
+                            <td class="py-3 px-4">$37.123.221</td>
+                            <td class="py-3 px-4">$19.733.011</td>
+                            <td class="py-3 px-4">$5.684.916</td>
+                            <td class="py-3 px-4 font-bold text-emerald-600">$14.048.095</td>
+                            <td class="py-3 px-4">$51.171.316</td>
+                            <td class="py-3 px-4">$29.212.796</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="bg-slate-100 font-bold text-slate-800 border-t border-slate-200">
+                            <td class="py-3 px-4">TOTALES</td>
+                            <td class="py-3 px-4">$266.587.154</td>
+                            <td class="py-3 px-4">$1.907.545.788</td>
+                            <td class="py-3 px-4">$1.876.826.318</td>
+                            <td class="py-3 px-4 text-blue-700">$30.719.470</td>
+                            <td class="py-3 px-4 text-purple-700">$297.306.624</td>
+                            <td class="py-3 px-4 text-amber-700">$192.071.006</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <!-- Alertas y Recomendaciones de Fiscalizador -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-xs border border-slate-200">
+                <h4 class="font-bold text-slate-700 mb-3 flex items-center">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-500 mr-2"></i> Observaciones del Simulacro
+                </h4>
+                <ul class="space-y-2 text-sm text-slate-600 list-disc list-inside">
+                    <li>Existe una brecha de <strong>$105.235.618</strong> entre los saldos a acreditar ($297.3M) y los saldos bancarios en cartola ($192.1M).</li>
+                </ul>
+            </div>
+           <div class="bg-white p-6 rounded-xl shadow-xs border border-slate-200">
+                <h4 class="font-bold text-slate-700 mb-3 flex items-center">
+                    <i class="fa-solid fa-list-check text-blue-600 mr-2"></i> Próximos Pasos Requeridos
+                </h4>
+                <ul class="space-y-2 text-sm text-slate-600 list-disc list-inside">
+                    <li>Aprovechar los periodos de rectificación de la Superintendencia de Educación para reducir los saldos que se arrastran desde el periodo de Rendición 2025</li>
+                    <li>Incorporar Gastos no Rendidos "Periodo 2025"</li>
+                </ul>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-400 py-6 mt-12 text-center text-xs">
+        <p>Reporte Preparado por Ricardo González Ortiz - Encargado Departamento Gestión de Recursos</p>
+        <p class="mt-1">Dashboard "Simulacro Rendición de Cuentas 2026 con fecha de corte 31/08/2026"</p>
+    </footer>
+
+</body>
+</html>
