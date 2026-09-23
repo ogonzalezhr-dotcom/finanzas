@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reporte de Egresos - ELAR</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased p-4 sm:p-6">
+
+  <div class="max-w-[96rem] mx-auto space-y-6">
+    
+    <!-- HEADER -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between border-b border-slate-200 pb-4 bg-white p-5 rounded-xl shadow-sm">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-900">Dashboard de Egresos</h1>
+        <p class="text-xs text-slate-500 mt-1">Reporte de Egresos con Detalle de Partidas y Sumatorias | Enero - Agosto 2026</p>
+      </div>
+      <div class="mt-4 md:mt-0">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+          Liceo Particular Avda Recoleta
+        </span>
+      </div>
+    </div>
+
+    <!-- TARJETAS KEY -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+      
+      <!-- 1. GRAN TOTAL -->
+      <div class="bg-slate-900 text-white p-4 rounded-xl shadow-sm border border-slate-800 flex flex-col justify-between">
+        <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Total General</span>
+        <div class="text-lg font-extrabold my-2 text-emerald-400">$1.876.826.318</div>
+        <span class="text-[10px] text-slate-400">Sumatoria Ene - Ago 2026</span>
+      </div>
+
+      <!-- 2. REMUNERACIONES -->
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
+        <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Remuneraciones</span>
+        <div class="text-base font-bold text-slate-900 my-1">$1.288.393.693</div>
+        <span class="text-xs text-emerald-600 font-semibold">68,65% del Total</span>
+      </div>
+
+      <!-- 3. APORTES EMPLEADOR -->
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
+        <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Aportes Empleador</span>
+        <div class="text-base font-bold text-slate-900 my-1">$66.922.334</div>
+        <span class="text-xs text-purple-600 font-semibold">3,57% del Total</span>
+      </div>
+
+      <!-- 4. GASTOS OP. / SERV. BÁS. / MANT. (DESTACADA) -->
+      <div 
+        title="Compras y Servicios equivalen a la sumatoria total de G.O del periodo 2026 y ascienden a la suma de: $521.510.291"
+        class="bg-indigo-50/40 p-4 rounded-xl shadow-sm border-2 border-indigo-400 flex flex-col justify-between relative cursor-help transition-all hover:bg-indigo-100/50 hover:shadow-md">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-indigo-950 uppercase tracking-wider">Gastos Op. / Serv. Bás. / Mant.</span>
+          <span class="text-[9px] font-bold bg-indigo-200 text-indigo-900 px-1.5 py-0.5 rounded">Compras</span>
+        </div>
+        <div class="text-base font-extrabold text-amber-700 my-1">$480.097.482</div>
+        <span class="text-xs text-amber-700 font-semibold">25,58% del Total</span>
+      </div>
+
+      <!-- 5. HONORARIOS (DESTACADA) -->
+      <div 
+        title="Gastos Operacionales, Servicios Básicos, Mantención de Infraestructura y Honorarios equivalen al total de egresos del periodo 2026 y ascienden a la suma de: $521.510.291"
+        class="bg-indigo-50/40 p-4 rounded-xl shadow-sm border-2 border-indigo-400 flex flex-col justify-between relative cursor-help transition-all hover:bg-indigo-100/50 hover:shadow-md">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-indigo-950 uppercase tracking-wider">Honorarios</span>
+          <span class="text-[9px] font-bold bg-indigo-200 text-indigo-900 px-1.5 py-0.5 rounded">Servicios</span>
+        </div>
+        <div class="text-base font-extrabold text-blue-700 my-1">$41.412.809</div>
+        <span class="text-xs text-blue-700 font-semibold">2,21% del Total</span>
+      </div>
+
+    </div>
+
+    <!-- SUMATORIA MENSUAL GENERAL -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+      <h2 class="text-sm font-semibold text-slate-900 mb-3 uppercase tracking-wider">Sumatoria Total Egresos por Mes</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 text-center">
+        <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+          <div class="text-xs font-medium text-slate-500">ENE</div>
+          <div class="text-sm font-bold text-slate-800 mt-1">$215.231.052</div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+          <div class="text-xs font-medium text-slate-500">FEB</div>
+          <div class="text-sm font-bold text-slate-800 mt-1">$202.196.445</div>
+        </div>
+        <div class="p-3 rounded-lg bg-amber-50 border border-amber-200">
+          <div class="text-xs font-bold text-amber-700">MAR (Pico)</div>
+          <div class="text-sm font-bold text-amber-900 mt-1">$311.690.208</div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+          <div class="text-xs font-medium text-slate-500">ABR</div>
+          <div class="text-sm font-bold text-slate-800 mt-1">$241.174.469</div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+          <div class="text-xs font-medium text-slate-500">MAY</div>
+          <div class="text-sm font-bold text-slate-800 mt-1">$204.853.468</div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+          <div class="text-xs font-medium text-slate-500">JUN</div>
+          <div class="text-sm font-bold text-slate-800 mt-1">$237.722.220</div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+          <div class="text-xs font-medium text-slate-500">JUL</div>
+          <div class="text-sm font-bold text-slate-800 mt-1">$211.211.082</div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+          <div class="text-xs font-medium text-slate-500">AGO</div>
+          <div class="text-sm font-bold text-slate-800 mt-1">$252.747.374</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLA DETALLADA COMPLETA (59 PARTIDAS) -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h2 class="text-base font-semibold text-slate-900">Detalle Completo de Partidas</h2>
+          <p class="text-xs text-slate-500">Desglose mensual y sumatorias acumuladas por partida y categoría (Haz clic en el título de una partida para ocultar/mostrar su detalle)</p>
+        </div>
+        <button onclick="toggleAllDetails()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition-colors self-start sm:self-auto">
+          Alternar Todo (Mostrar / Ocultar)
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-right text-xs">
+          <thead class="bg-slate-900 text-white font-semibold">
+            <tr>
+              <th class="p-3 text-left w-1/4">Partida / Concepto</th>
+              <th class="p-3">ENE</th>
+              <th class="p-3">FEB</th>
+              <th class="p-3">MAR</th>
+              <th class="p-3">ABR</th>
+              <th class="p-3">MAY</th>
+              <th class="p-3">JUN</th>
+              <th class="p-3">JUL</th>
+              <th class="p-3">AGO</th>
+              <th class="p-3 bg-slate-800 text-emerald-400 font-bold">Total Partida</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-700">
+
+            <!-- PARTIDA REMUNERACIONES -->
+            <tr class="bg-slate-200 font-bold text-slate-900 text-left border-y border-slate-300 cursor-pointer hover:bg-slate-300 transition-colors select-none" onclick="toggleSection('remuneraciones')">
+              <td colspan="10" class="p-3 text-xs uppercase tracking-wider">
+                <div class="flex items-center justify-between w-full">
+                  <div class="flex items-center gap-2">
+                    <span>PARTIDA REMUNERACIONES</span>
+                    <span id="icon-remuneraciones" class="text-slate-500 font-normal text-[10px] bg-slate-300 px-2 py-0.5 rounded">▼ Ocultar detalle</span>
+                  </div>
+                  <span class="text-right text-xs text-emerald-800 font-extrabold">$1.288.393.693</span>
+                </div>
+              </td>
+            </tr>
+            <tbody id="sec-remuneraciones" class="contents">
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">SUELDO BASE</td><td class="p-2">103.043.383</td><td class="p-2">109.405.198</td><td class="p-2">97.349.587</td><td class="p-2">99.148.074</td><td class="p-2">99.033.243</td><td class="p-2">103.649.933</td><td class="p-2">104.676.504</td><td class="p-2">103.282.747</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$819.588.669</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">LEY Nº 19.933</td><td class="p-2">10.284.524</td><td class="p-2">10.185.975</td><td class="p-2">9.161.627</td><td class="p-2">9.329.051</td><td class="p-2">9.159.504</td><td class="p-2">9.079.453</td><td class="p-2">8.374.194</td><td class="p-2">8.158.290</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$73.732.618</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">BRP TÍTULO Y MENCIÓN LEY Nº 20.158</td><td class="p-2">8.810.206</td><td class="p-2">9.280.470</td><td class="p-2">7.418.404</td><td class="p-2">7.672.786</td><td class="p-2">8.297.082</td><td class="p-2">8.668.693</td><td class="p-2">9.786.927</td><td class="p-2">9.692.906</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$69.627.474</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">LEY 19.464 ASISTENTES (INCLUYE INTERNADOS) (ART. 5</td><td class="p-2">1.971.970</td><td class="p-2">1.982.805</td><td class="p-2">1.865.791</td><td class="p-2">1.917.798</td><td class="p-2">1.944.195</td><td class="p-2">1.046.025</td><td class="p-2">1.057.112</td><td class="p-2">1.053.060</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$12.838.756</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">ASIGNACIÓN DESEMPEÑO CONDICIONES DIFÍCILES DOCENTE</td><td class="p-2">1.793.594</td><td class="p-2">1.776.514</td><td class="p-2">1.289.734</td><td class="p-2">1.285.464</td><td class="p-2">1.254.429</td><td class="p-2">1.300.642</td><td class="p-2">1.195.600</td><td class="p-2">1.184.498</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$11.080.475</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">COLACIÓN Y MOVILIZACIÓN</td><td class="p-2">4.926.505</td><td class="p-2">4.914.005</td><td class="p-2">4.429.088</td><td class="p-2">4.554.505</td><td class="p-2">4.549.955</td><td class="p-2">4.733.405</td><td class="p-2">4.761.505</td><td class="p-2">4.706.205</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$37.575.173</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">BONOS ACORDADOS CON EL SOSTENEDOR</td><td class="p-2">24.508.250</td><td class="p-2">23.196.728</td><td class="p-2">23.609.648</td><td class="p-2">24.334.261</td><td class="p-2">23.424.177</td><td class="p-2">24.528.912</td><td class="p-2">23.731.953</td><td class="p-2">23.400.201</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$190.734.130</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">ASIGNACIÓN DESEMPEÑO CONDICIONES DIFÍCILES ASISTEN</td><td class="p-2">309.582</td><td class="p-2">311.283</td><td class="p-2">290.020</td><td class="p-2">300.737</td><td class="p-2">309.923</td><td class="p-2">308.902</td><td class="p-2">309.413</td><td class="p-2">302.608</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$2.442.468</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">PLANILLA COMPLEMENTARIA LEY N°19.410</td><td class="p-2">3.999.629</td><td class="p-2">3.961.305</td><td class="p-2">3.561.474</td><td class="p-2">3.626.582</td><td class="p-2">3.612.381</td><td class="p-2">3.550.334</td><td class="p-2">13.536</td><td class="p-2">3.190.134</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$25.515.375</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">ASIGNACION DE RECONOCIMIENTO POR DOCENCIA EN EACAP</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">887.139</td><td class="p-2">887.139</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$1.774.278</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">ASIGNACIÓN POR TRAMOS DE DESARROLLO PROFESIONAL</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">2.880.179</td><td class="p-2">2.880.179</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$5.760.358</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">PAGO BONO DE ESCOLARIAD Y ADICIONAL</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">4.201.564</td><td class="p-2">-</td><td class="p-2">2.571.924</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$6.773.488</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">PAGO AGUINALDO DE NAVIDAD</td><td class="p-2">7.764.211</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">216.599</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$7.980.810</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">PAGO BONO ESPECIAL</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">12.525.000</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$12.525.000</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">PAGO BONO VACACIONES</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">10.444.621</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$10.444.621</td></tr>
+            </tbody>
+
+            <!-- PARTIDA APORTES DEL EMPLEADOR -->
+            <tr class="bg-slate-200 font-bold text-slate-900 text-left border-y border-slate-300 cursor-pointer hover:bg-slate-300 transition-colors select-none" onclick="toggleSection('aportes')">
+              <td colspan="10" class="p-3 text-xs uppercase tracking-wider">
+                <div class="flex items-center justify-between w-full">
+                  <div class="flex items-center gap-2">
+                    <span>PARTIDA APORTES DEL EMPLEADOR</span>
+                    <span id="icon-aportes" class="text-slate-500 font-normal text-[10px] bg-slate-300 px-2 py-0.5 rounded">▼ Ocultar detalle</span>
+                  </div>
+                  <span class="text-right text-xs text-emerald-800 font-extrabold">$66.922.334</span>
+                </div>
+              </td>
+            </tr>
+            <tbody id="sec-aportes" class="contents">
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">SEGURO DE ACCIDENTE DEL TRABAJO</td><td class="p-2">1.421.723</td><td class="p-2">1.467.762</td><td class="p-2">1.317.867</td><td class="p-2">1.351.009</td><td class="p-2">1.344.337</td><td class="p-2">1.392.692</td><td class="p-2">1.401.083</td><td class="p-2">1.412.791</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$11.109.264</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">SEGURO DE CESANTIA</td><td class="p-2">3.412.850</td><td class="p-2">3.540.002</td><td class="p-2">3.197.576</td><td class="p-2">3.083.069</td><td class="p-2">3.069.948</td><td class="p-2">3.092.014</td><td class="p-2">3.078.845</td><td class="p-2">3.167.060</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$25.641.364</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">SEGURO DE INVALIDEZ Y SOBREVIVENCIA (SIS)</td><td class="p-2">2.163.270</td><td class="p-2">2.240.987</td><td class="p-2">2.030.525</td><td class="p-2">2.153.425</td><td class="p-2">2.191.498</td><td class="p-2">2.212.031</td><td class="p-2">2.747.952</td><td class="p-2">2.509.731</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$18.249.419</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">OTROS APORTES PREVISIONALES DEL SOSTENEDOR</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">1.200.000</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$1.200.000</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">APORTE REFORMA DE PENSIONES LEY N°21.735 (GASTO)</td><td class="p-2">1.403.089</td><td class="p-2">1.453.315</td><td class="p-2">1.313.664</td><td class="p-2">1.325.535</td><td class="p-2">1.345.752</td><td class="p-2">1.362.404</td><td class="p-2">1.370.013</td><td class="p-2">1.148.515</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$10.722.287</td></tr>
+            </tbody>
+
+            <!-- PARTIDA GASTOS DE OPERACIÓN -->
+            <tr class="bg-slate-200 font-bold text-slate-900 text-left border-y border-slate-300 cursor-pointer hover:bg-slate-300 transition-colors select-none" onclick="toggleSection('operacion')">
+              <td colspan="10" class="p-3 text-xs uppercase tracking-wider">
+                <div class="flex items-center justify-between w-full">
+                  <div class="flex items-center gap-2">
+                    <span>PARTIDA GASTOS DE OPERACIÓN</span>
+                    <span id="icon-operacion" class="text-slate-500 font-normal text-[10px] bg-slate-300 px-2 py-0.5 rounded">▼ Ocultar detalle</span>
+                  </div>
+                  <span class="text-right text-xs text-emerald-800 font-extrabold">$258.211.277</span>
+                </div>
+              </td>
+            </tr>
+            <tbody id="sec-operacion" class="contents">
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">INDEMNIZACIONES Y/O FERIADO PROPORCIONAL</td><td class="p-2">-</td><td class="p-2">1.900.000</td><td class="p-2">63.464.899</td><td class="p-2">8.860.006</td><td class="p-2">3.057.895</td><td class="p-2">2.811.714</td><td class="p-2">2.766.714</td><td class="p-2">2.811.714</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$85.672.942</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">OTROS GASTOS EN PERSONAL</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">1.570.395</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$1.570.395</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">ASESORÍA TÉCNICA Y CAPACITACIÓN DE EMPRESAS (REGIS</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">1.784.000</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$1.784.000</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">PERFECCIONAMIENTO DE RRHH, CAPACITACIONES Y ASESOR</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">960.000</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">1.887.906</td><td class="p-2">2.887.914</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$5.735.820</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">INSTRUMENTOS MUSICALES Y ARTÍSTICOS</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">410.610</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$410.610</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">MATERIAL Y RECURSOS DIDÁCTICOS</td><td class="p-2">314.927</td><td class="p-2">-</td><td class="p-2">1.832.871</td><td class="p-2">9.160.163</td><td class="p-2">-</td><td class="p-2">2.831.117</td><td class="p-2">793.283</td><td class="p-2">2.258.241</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$17.190.602</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">EVENTOS EDUCATIVOS Y CULTURALES</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">1.113.782</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$1.113.782</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">EQUIPOS INFORMÁTICOS Y LICENCIAS</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">654.370</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">629.380</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$1.283.750</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">EQUIPOS MULTICOPIADORES</td><td class="p-2">266.042</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">1.503.458</td><td class="p-2">-</td><td class="p-2">1.483.341</td><td class="p-2">796.014</td><td class="p-2">1.033.686</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$5.082.541</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">OTROS GASTOS EN EQUIPAMIENTO DE APOYO PEDAGÓGICO</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">481.046</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$481.046</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">UNIFORMES Y VESTUARIO</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">3.583.685</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$3.583.685</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">OTROS GASTOS BIENESTAR ALUMNOS</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">300.000</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$300.000</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">TALLERES EXTRAPROGRAMATICOS</td><td class="p-2">685.439</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">1.379.381</td><td class="p-2">844.779</td><td class="p-2">4.342.124</td><td class="p-2">747.500</td><td class="p-2">501.592</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$8.500.815</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">TRANSPORTE ESCOLAR</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">290.000</td><td class="p-2">-</td><td class="p-2">4.270.000</td><td class="p-2">-</td><td class="p-2">1.750.000</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$6.310.000</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">ALIMENTACIÓN</td><td class="p-2">2.637.690</td><td class="p-2">-</td><td class="p-2">2.209.256</td><td class="p-2">1.677.254</td><td class="p-2">2.350.968</td><td class="p-2">3.234.348</td><td class="p-2">227.069</td><td class="p-2">344.649</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$12.681.234</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">INSUMOS COMPUTACIONALES</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">856.110</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">742.560</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$1.598.670</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">COMBUSTIBLE Y PEAJES</td><td class="p-2">76.009</td><td class="p-2">-</td><td class="p-2">448.449</td><td class="p-2">124.123</td><td class="p-2">227.525</td><td class="p-2">230.981</td><td class="p-2">85.844</td><td class="p-2">146.593</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$1.339.524</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">OTROS GASTOS DE OPERACIÓN</td><td class="p-2">2.699.977</td><td class="p-2">7.294.237</td><td class="p-2">7.379.719</td><td class="p-2">7.325.641</td><td class="p-2">2.585.984</td><td class="p-2">13.637.672</td><td class="p-2">14.856.233</td><td class="p-2">11.181.333</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$66.960.796</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">GASTOS MUNICIPALES E IMPUESTOS</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">61.965</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">63.089</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$125.054</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">GASTOS BANCARIOS</td><td class="p-2">620.592</td><td class="p-2">622.147</td><td class="p-2">619.060</td><td class="p-2">686.711</td><td class="p-2">695.807</td><td class="p-2">632.757</td><td class="p-2">635.571</td><td class="p-2">641.638</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$5.154.283</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">CONTRATACIÓN DE SEGUROS</td><td class="p-2">1.568.897</td><td class="p-2">7.466</td><td class="p-2">14.973</td><td class="p-2">7.538</td><td class="p-2">7.625</td><td class="p-2">7.674</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$1.614.173</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">DEVOLUCIONES DE FONDOS PÚBLICOS</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">2.766.415</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$2.766.415</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">GASTOS NOTARIALES</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">10.000</td><td class="p-2">45.000</td><td class="p-2">84.000</td><td class="p-2">18.000</td><td class="p-2">15.000</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$172.000</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">CONTRATACIÓN OTROS SERVICIOS EXTERNOS</td><td class="p-2">5.151.705</td><td class="p-2">1.643.288</td><td class="p-2">5.259.783</td><td class="p-2">2.596.771</td><td class="p-2">4.610.050</td><td class="p-2">3.370.096</td><td class="p-2">1.457.839</td><td class="p-2">2.417.004</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$26.506.536</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">MULTAS E INTERESES FISCALES Y PREVISIONALES</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">145.356</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">127.248</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$272.604</td></tr>
+            </tbody>
+
+            <!-- PARTIDA SERVICIOS BÁSICOS -->
+            <tr class="bg-slate-200 font-bold text-slate-900 text-left border-y border-slate-300 cursor-pointer hover:bg-slate-300 transition-colors select-none" onclick="toggleSection('servicios')">
+              <td colspan="10" class="p-3 text-xs uppercase tracking-wider">
+                <div class="flex items-center justify-between w-full">
+                  <div class="flex items-center gap-2">
+                    <span>PARTIDA G.O. SERVICIOS BÁSICOS</span>
+                    <span id="icon-servicios" class="text-slate-500 font-normal text-[10px] bg-slate-300 px-2 py-0.5 rounded">▼ Ocultar detalle</span>
+                  </div>
+                  <span class="text-right text-xs text-emerald-800 font-extrabold">$196.024.520</span>
+                </div>
+              </td>
+            </tr>
+            <tbody id="sec-servicios" class="contents">
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">AGUA</td><td class="p-2">1.805.560</td><td class="p-2">1.564.830</td><td class="p-2">1.383.340</td><td class="p-2">2.223.430</td><td class="p-2">1.355.170</td><td class="p-2">1.594.440</td><td class="p-2">1.325.870</td><td class="p-2">1.356.600</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$12.609.240</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">GAS</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">90.000</td><td class="p-2">228.002</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$318.002</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">ELECTRICIDAD</td><td class="p-2">-</td><td class="p-2">6.061.003</td><td class="p-2">-</td><td class="p-2">3.954.057</td><td class="p-2">-</td><td class="p-2">6.270.170</td><td class="p-2">2.947.087</td><td class="p-2">403.994</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$19.636.311</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">TELEFONÍA (MÓVIL Y FIJA)</td><td class="p-2">-</td><td class="p-2">975.768</td><td class="p-2">-</td><td class="p-2">1.894.062</td><td class="p-2">-</td><td class="p-2">1.076.306</td><td class="p-2">472.684</td><td class="p-2">299.794</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$4.718.614</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">INTERNET</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">223.783</td><td class="p-2">-</td><td class="p-2">477.517</td><td class="p-2">229.294</td><td class="p-2">229.417</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$1.160.011</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">ARRIENDO DE LOCAL ESCOLAR</td><td class="p-2">17.171.742</td><td class="p-2">-</td><td class="p-2">51.772.803</td><td class="p-2">17.429.319</td><td class="p-2">17.429.319</td><td class="p-2">17.429.319</td><td class="p-2">515.154</td><td class="p-2">35.834.686</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$157.582.342</td></tr>
+            </tbody>
+
+            <!-- PARTIDA MANTENCIÓN INFRAESTRUCTURA -->
+            <tr class="bg-slate-200 font-bold text-slate-900 text-left border-y border-slate-300 cursor-pointer hover:bg-slate-300 transition-colors select-none" onclick="toggleSection('mantencion')">
+              <td colspan="10" class="p-3 text-xs uppercase tracking-wider">
+                <div class="flex items-center justify-between w-full">
+                  <div class="flex items-center gap-2">
+                    <span>PARTIDA G.O. MANT INFRAESTRUCTURA</span>
+                    <span id="icon-mantencion" class="text-slate-500 font-normal text-[10px] bg-slate-300 px-2 py-0.5 rounded">▼ Ocultar detalle</span>
+                  </div>
+                  <span class="text-right text-xs text-emerald-800 font-extrabold">$67.274.494</span>
+                </div>
+              </td>
+            </tr>
+            <tbody id="sec-mantencion" class="contents">
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">MATERIALES Y ÚTILES DE ASEO</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">1.880.853</td><td class="p-2">1.914.323</td><td class="p-2">1.859.872</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">2.500.508</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$8.155.556</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">CONTRATACIÓN SERVICIOS DE ASEO Y JARDINERIA</td><td class="p-2">140.351</td><td class="p-2">1.426.491</td><td class="p-2">1.534.195</td><td class="p-2">176.991</td><td class="p-2">70.796</td><td class="p-2">-</td><td class="p-2">1.249.500</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$4.598.324</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">CONTRATACIÓN SERVICIOS DE SEGURIDAD</td><td class="p-2">3.794.849</td><td class="p-2">-</td><td class="p-2">3.794.849</td><td class="p-2">-</td><td class="p-2">3.794.849</td><td class="p-2">1.545.719</td><td class="p-2">3.224.279</td><td class="p-2">1.440.509</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$17.595.054</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">MANTENCIÓN Y REPARACIÓN DE INFRAESTRUCTURA</td><td class="p-2">2.342.689</td><td class="p-2">-</td><td class="p-2">261.057</td><td class="p-2">297.217</td><td class="p-2">891.813</td><td class="p-2">310.876</td><td class="p-2">10.351.036</td><td class="p-2">12.123.313</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$26.578.001</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">INSTALACIONES ELÉCTRICAS, ILUMINACIÓN Y SISTEMAS D</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">1.098.650</td><td class="p-2">-</td><td class="p-2">677.000</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$1.775.650</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">INSTALACIONES DE GAS</td><td class="p-2">141.797</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$141.797</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">MANTENCIÓN Y REPARACIÓN DE BIENES MUEBLES</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">708.050</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$708.050</td></tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-100"><td class="p-2 text-left font-medium text-slate-800">MANTENCIÓN Y REPARACIÓN DE MOBILIARIO ESCOLAR</td><td class="p-2">-</td><td class="p-2">6.984.866</td><td class="p-2">666.400</td><td class="p-2">70.796</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2">-</td><td class="p-2 font-semibold text-slate-900 bg-slate-50">$7.722.062</td></tr>
+            </tbody>
+
+          </tbody>
+
+          <!-- TOTALES GENERALES POR MES Y GRAN TOTAL -->
+          <tfoot class="bg-slate-900 text-white font-bold text-xs">
+            <tr>
+              <td class="p-3 text-left">SUMATORIA GENERAL MES</td>
+              <td class="p-3">$215.231.052</td>
+              <td class="p-3">$202.196.445</td>
+              <td class="p-3">$311.690.208</td>
+              <td class="p-3">$241.174.469</td>
+              <td class="p-3">$204.853.468</td>
+              <td class="p-3">$237.722.220</td>
+              <td class="p-3">$211.211.082</td>
+              <td class="p-3">$252.747.374</td>
+              <td class="p-3 text-emerald-400 bg-slate-950 font-extrabold text-sm">$1.876.826.318</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SCRIPT PARA CONTROLAR EL MOSTRAR / OCULTAR -->
+  <script>
+    const sections = ['remuneraciones', 'aportes', 'operacion', 'servicios', 'mantencion'];
+
+    function toggleSection(sectionId) {
+      const tbody = document.getElementById('sec-' + sectionId);
+      const icon = document.getElementById('icon-' + sectionId);
+      
+      if (tbody.style.display === 'none') {
+        tbody.style.display = 'contents';
+        icon.textContent = '▼ Ocultar detalle';
+      } else {
+        tbody.style.display = 'none';
+        icon.textContent = '▶ Mostrar detalle';
+      }
+    }
+
+    let allHidden = false;
+    function toggleAllDetails() {
+      allHidden = !allHidden;
+      sections.forEach(secId => {
+        const tbody = document.getElementById('sec-' + secId);
+        const icon = document.getElementById('icon-' + secId);
+        if (allHidden) {
+          tbody.style.display = 'none';
+          icon.textContent = '▶ Mostrar detalle';
+        } else {
+          tbody.style.display = 'contents';
+          icon.textContent = '▼ Ocultar detalle';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
